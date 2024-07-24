@@ -1,0 +1,38 @@
+.login-button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 30px;
+  cursor: pointer;
+}
+.nav-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.menu-list {
+  display: flex;
+  list-style-type: none;
+}
+.menu-list li {
+  padding: 10px;
+}
+.menu-area {
+  display: flex;
+  justify-content: center;
+}
+.search-area {
+  position: absolute;
+  right: 0;
+  border-bottom: 1px solid rgb(66, 66, 66);
+}
+.product {
+  margin: 20px;
+}
+.product :hover {
+  width: 350px;
+}
+.product-img {
+  display: flex;
+  justify-content: flex-end;
+}
