@@ -3,8 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-const Navbar = () => {
+import { useState, useEffect } from "react";
+const Navbar = ({ authenticate, setAuthenticate }) => {
   const navigate = useNavigate();
+  const [inputValue, setInputValue] = useState("");
+
   const menuList = [
     "여성",
     "Divided",
@@ -20,16 +23,28 @@ const Navbar = () => {
   };
   const goHomePage = () => {
     navigate("/");
+    setAuthenticate(false);
   };
+  const ProductSearch = (event) => {
+    setInputValue(event.target.value);
+  };
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter" || event.keyCode == 13) {
+      let keyward = event.target.value;
+      navigate(`/?q=${keyward}`);
+    }
+  };
+
+  useEffect(() => {}, [authenticate]);
   return (
     <div>
       <div className="login-button">
         <FontAwesomeIcon icon={faUser} />
         <div
           style={{ border: "none", background: "white" }}
-          onClick={goLoginPage}
+          onClick={authenticate ? goHomePage : goLoginPage}
         >
-          로그인
+          {authenticate ? "로그아웃" : "로그인"}
         </div>
       </div>
       <div className="nav-section">
@@ -52,7 +67,9 @@ const Navbar = () => {
           <input
             style={{ marginBottom: "5px", border: "none", outline: "none" }}
             type="text"
-            value={"드레스"}
+            value={inputValue}
+            onChange={ProductSearch}
+            onKeyDown={handleKeyDown}
           ></input>
         </div>
       </div>

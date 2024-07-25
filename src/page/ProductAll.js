@@ -1,27 +1,39 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProductCard from "../component/ProductCard";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col } from "react-bootstrap";
+import { useSearchParams } from "react-router-dom";
 
-const ProductAll = () => {
+const ProductAll = ({ authenticate, setAuthenticate }) => {
   const [productList, setProductList] = useState([]);
+  const [query, setQuery] = useSearchParams();
+
   const getProducts = async () => {
-    let url = `http://localhost:5000/products`;
-    let response = await fetch(url);
-    let data = await response.json();
-    setProductList(data);
+    let searchQuery = query.get("q") || "";
+    let url = `http://localhost:5000/products?q=${searchQuery}`;
+    try {
+      let response = await fetch(url);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      let data = await response.json();
+      console.log("Fetched data:", data); // 디버깅용 로그
+      setProductList(data);
+    } catch (error) {
+      console.error("Fetch error:", error);
+    }
   };
 
   useEffect(() => {
     getProducts();
-  }, []);
+  }, [query]);
+
   return (
     <div>
       <Container>
         <Row>
           {productList.map((menu) => (
-            <Col lg={3}>
+            <Col lg={3} key={menu.id}>
               <ProductCard item={menu} />
             </Col>
           ))}

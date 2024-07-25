@@ -2,6 +2,8 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { Container, Col, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import Dropdown from "react-bootstrap/Dropdown";
+
 const ProductDetail = () => {
   let { id } = useParams();
   const [product, setProduct] = useState("");
@@ -35,14 +37,26 @@ const ProductDetail = () => {
             <div style={{ marginBottom: "10px" }}>
               {product?.choice == true ? "concious choice" : ""}
             </div>
-            <select style={{ marginBottom: "15px" }}>
-              <option value="" disabled>
-                사이즈 선택
-              </option>
-              {sizeList.map((size) => (
-                <option>{size}</option>
-              ))}
-            </select>
+            <div style={{ marginBottom: "15px" }}>
+              <Dropdown>
+                <Dropdown.Toggle
+                  style={{
+                    backgroundColor: "white",
+                    color: "black",
+                    border: "0.7px solid black",
+                  }}
+                  variant="success"
+                  id="dropdown-basic"
+                >
+                  사이즈 선택
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  {sizeList.map((size) => (
+                    <Dropdown.Item href="#/action-1">{size}</Dropdown.Item>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
             <div>
               <button
                 style={{
